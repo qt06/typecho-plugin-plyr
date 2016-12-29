@@ -1,2 +1,7 @@
-# plyr-typecho
-plyr for typecho
+为了避免与其他播放器插件冲突，请卸载其他播放器插件后在安装本插件
+兼容 AudioPlayer 的添加格式，可使用
+`[mp3]歌曲地址[/mp3]`
+格式添加音乐，但是不支持用逗号分隔多个地址
+建议直接使用 html5 的 audio 标签添加音乐，例如：
+`<audio src="http://a.com/b.mp3"></audio>`
+默认在首页和分类页面不自动播放
