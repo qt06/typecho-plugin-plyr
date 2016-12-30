@@ -78,7 +78,7 @@ class plyr_Plugin implements Typecho_Plugin_Interface
         echo '
 <script src="'. $jsUrl .'"></script>
 <script>
-plyr.setup({';
+plyr.setup(".post-content", {';
         if($widget->is('post') || $widget->is('page')) {
             echo '
   autoplay: true,';
