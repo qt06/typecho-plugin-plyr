@@ -4,7 +4,7 @@
  * 
  * @package plyr  播放器
  * @author 杨永全
- * @version 1.0.0
+ * @version 1.1.0
  * @dependence 14.10.10-*
  * @link http://www.qt06.com
  */
@@ -74,30 +74,48 @@ class plyr_Plugin implements Typecho_Plugin_Interface
      * @return unknown
     */
     public static function footer($widget) {
-        $jsUrl = Helper::options()->pluginUrl . '/plyr/plyr.js';
+        $jsUrl = Helper::options()->pluginUrl . '/plyr/plyr.polyfilled.min.js';
         echo '
 <script src="'. $jsUrl .'"></script>
 <script>
-plyr.setup(".post-content", {';
+var player = new Plyr("audio, video", {';
         if($widget->is('post') || $widget->is('page')) {
             echo '
   autoplay: true,';
         }
         echo '
-  i18n: {
-    restart:            "重新播放",
-    rewind:             "后退 {seektime} 秒",
-    play:               "播放",
-    pause:              "暂停",
-    forward:            "快进 {seektime} 秒",
-    buffered:           "缓冲",
-    currentTime:        "当前时长",
-    duration:           "持续时间",
-    volume:             "音量",
-    toggleMute:         "切换静音",
-    toggleCaptions:     "切换字幕",
-    toggleFullscreen:   "切换全屏"
-  }
+i18n: {
+    restart: "重新开始",
+    rewind: "后退 {seektime} 秒",
+    play: "播放",
+    pause: "暂停",
+    fastForward: "快进 {seektime} 秒",
+    seek: "进度",
+    played: "Played",
+    buffered: "缓冲",
+    currentTime: "当前时间",
+    duration: "持续",
+    volume: "音量",
+    mute: "静音",
+    unmute: "取消静音",
+    enableCaptions: "启用字幕",
+    disableCaptions: "禁用字幕",
+    enterFullscreen: "进入全屏",
+    exitFullscreen: "退出全屏",
+    frameTitle: "Player for {title}",
+    captions: "字幕",
+    settings: "设置",
+    speed: "速度",
+    normal: "正常",
+    quality: "品质",
+    loop: "循环",
+    start: "开始",
+    end: "结束",
+    all: "全部",
+    reset: "重置",
+    disabled: "Disabled",
+    advertisement: "广告",
+}
 });
 </script>';
     }
