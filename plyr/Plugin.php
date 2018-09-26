@@ -78,7 +78,10 @@ class plyr_Plugin implements Typecho_Plugin_Interface
         echo '
 <script src="'. $jsUrl .'"></script>
 <script>
-var player = new Plyr("audio, video", {';
+var eles = document.querySelectorAll('audio, video');
+var players = [];
+for(var i = 0, len = eles.length; i < len; i++) {
+players.push(new Plyr(eles[i], {';
         if($widget->is('post') || $widget->is('page')) {
             echo '
   autoplay: true,';
@@ -116,7 +119,8 @@ i18n: {
     disabled: "Disabled",
     advertisement: "广告",
 }
-});
+}));
+}
 </script>';
     }
     
