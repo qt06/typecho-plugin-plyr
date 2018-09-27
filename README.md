@@ -5,4 +5,4 @@
 建议直接使用 html5 的 audio 标签添加音乐，例如：
 `<audio src="http://a.com/b.mp3"></audio>`
 视频请直接使用`video`标签添加。
-默认在首页和分类页面不自动播放
+默认不自动播放
