@@ -4,11 +4,11 @@
  * 
  * @package plyr  播放器
  * @author 杨永全
- * @version 1.1.0
+ * @version 1.2.1
  * @dependence 14.10.10-*
  * @link http://www.qt06.com
  */
-class plyr_Plugin implements Typecho_Plugin_Interface
+class Plyr_Plugin implements Typecho_Plugin_Interface
 {
     /**
      * 激活插件方法,如果激活失败,直接抛出异常
@@ -19,11 +19,11 @@ class plyr_Plugin implements Typecho_Plugin_Interface
     */
     public static function activate()
     {
-        Typecho_Plugin::factory('Widget_Abstract_Contents')->filter = array('plyr_Plugin','filter');
-        Typecho_Plugin::factory('Widget_Abstract_Contents')->contentEx = array('plyr_Plugin', 'parse');
-        Typecho_Plugin::factory('Widget_Abstract_Contents')->excerptEx = array('plyr_Plugin', 'parse');
-        Typecho_Plugin::factory('Widget_Archive')->header = array('plyr_Plugin', 'header');
-        Typecho_Plugin::factory('Widget_Archive')->footer = array('plyr_Plugin', 'footer');
+        Typecho_Plugin::factory('Widget_Abstract_Contents')->filter = array('Plyr_Plugin','filter');
+        Typecho_Plugin::factory('Widget_Abstract_Contents')->contentEx = array('Plyr_Plugin', 'parse');
+        Typecho_Plugin::factory('Widget_Abstract_Contents')->excerptEx = array('Plyr_Plugin', 'parse');
+        //Typecho_Plugin::factory('Widget_Archive')->header = array('Plyr_Plugin', 'header');
+        Typecho_Plugin::factory('Widget_Archive')->footer = array('Plyr_Plugin', 'footer');
     }
     
     /**
@@ -62,7 +62,7 @@ class plyr_Plugin implements Typecho_Plugin_Interface
      * @return unknown
     */
     public static function header() {
-        $cssUrl = Helper::options()->pluginUrl . '/plyr/plyr.css';
+        $cssUrl = Helper::options()->pluginUrl . '/Plyr/plyr.css';
         echo '<link rel="stylesheet" type="text/css" href="' . $cssUrl . '" />';
     }
     
@@ -70,60 +70,12 @@ class plyr_Plugin implements Typecho_Plugin_Interface
      * 输出尾部js
      * 
      * @access public
-     * @param unknown $header
-     * @return unknown
+     * @param unknown $widget
+     * @return void
     */
     public static function footer($widget) {
-        $jsUrl = Helper::options()->pluginUrl . '/plyr/plyr.polyfilled.min.js';
-        echo '
-<script src="'. $jsUrl .'"></script>
-<script>
-(function(){
-var eles = document.querySelectorAll("audio, video");
-var players = [];
-for(var i = 0, len = eles.length; i < len; i++) {
-players.push(new Plyr(eles[i], {';
-        if($widget->is('post') || $widget->is('page')) {
-            echo '
-  //autoplay: true,';
-        }
-        echo '
-i18n: {
-    restart: "重新开始",
-    rewind: "后退 {seektime} 秒",
-    play: "播放",
-    pause: "暂停",
-    fastForward: "快进 {seektime} 秒",
-    seek: "进度",
-    played: "Played",
-    buffered: "缓冲",
-    currentTime: "当前时间",
-    duration: "持续",
-    volume: "音量",
-    mute: "静音",
-    unmute: "取消静音",
-    enableCaptions: "启用字幕",
-    disableCaptions: "禁用字幕",
-    enterFullscreen: "进入全屏",
-    exitFullscreen: "退出全屏",
-    frameTitle: "Player for {title}",
-    captions: "字幕",
-    settings: "设置",
-    speed: "速度",
-    normal: "正常",
-    quality: "品质",
-    loop: "循环",
-    start: "开始",
-    end: "结束",
-    all: "全部",
-    reset: "重置",
-    disabled: "Disabled",
-    advertisement: "广告",
-}
-}));
-}
-})();
-</script>';
+        $url = Helper::options()->pluginUrl . '/Plyr/';
+        echo '<script data-qt-plyr-url="' . $url . '" src="'. $url .'plyr.load.js"></script>';
     }
     
     /**
@@ -168,7 +120,7 @@ i18n: {
         $text = empty($lastResult) ? $text : $lastResult;
         if ($widget instanceof Widget_Archive) {
             //兼容 audioPlayer
-            return preg_replace_callback('/\[(mp3)](.*?)\[\/\\1]/is',array('plyr_Plugin','parseCallback'),$text);
+            return preg_replace_callback('/\[(mp3)](.*?)\[\/\\1]/is',array('Plyr_Plugin','parseCallback'),$text);
         } else {
             return $text;
         }
